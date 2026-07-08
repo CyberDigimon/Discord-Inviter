@@ -1,17 +1,19 @@
-import 'dotenv/config';
 import {
   Client,
   Events,
   GatewayIntentBits,
   Partials,
 } from 'discord.js';
+import { getConfig } from './config.js';
 import { handleCommand } from './commands.js';
 import { InviteTracker } from './inviteTracker.js';
 
-const token = process.env.DISCORD_TOKEN;
+let token;
 
-if (!token) {
-  console.error('DISCORD_TOKEN is not set. Copy .env.example to .env and add your bot token.');
+try {
+  ({ token } = getConfig());
+} catch (error) {
+  console.error(error.message);
   process.exit(1);
 }
 

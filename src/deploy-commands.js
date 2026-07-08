@@ -1,13 +1,15 @@
-import 'dotenv/config';
 import { REST, Routes } from 'discord.js';
+import { getConfig } from './config.js';
 import { commands } from './commands.js';
 
-const token = process.env.DISCORD_TOKEN;
-const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
+let token;
+let clientId;
+let guildId;
 
-if (!token || !clientId) {
-  console.error('Missing DISCORD_TOKEN or CLIENT_ID in environment.');
+try {
+  ({ token, clientId, guildId } = getConfig());
+} catch (error) {
+  console.error(error.message);
   process.exit(1);
 }
 
