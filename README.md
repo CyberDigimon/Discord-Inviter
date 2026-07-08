@@ -14,6 +14,23 @@ A Discord bot that tracks who invited each member, keeps invite counts, and expo
 
 ## Setup
 
+### Windows quick setup (Documents folder)
+
+1. Download or clone this repo.
+2. Double-click `setup-windows.bat`.
+3. It installs a fresh copy to:
+   ```
+   C:\Users\YourName\Documents\Discord-Inviter
+   ```
+4. Open that folder in Cursor, edit `.env`, and add your `DISCORD_TOKEN`.
+5. Run:
+   ```bash
+   npm run deploy-commands
+   npm start
+   ```
+
+### Manual setup
+
 1. Create a bot in the [Discord Developer Portal](https://discord.com/developers/applications).
 2. Enable these **Privileged Gateway Intents**:
    - Server Members Intent
