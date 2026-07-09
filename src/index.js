@@ -7,15 +7,18 @@ import {
 import { getConfig } from './config.js';
 import { handleCommand } from './commands.js';
 import { InviteTracker } from './inviteTracker.js';
+import { notifyInviterOnJoin } from './notifications.js';
 
-let token;
+let config;
 
 try {
-  ({ token } = getConfig());
+  config = getConfig();
 } catch (error) {
   console.error(error.message);
   process.exit(1);
 }
+
+const { token } = config;
 
 const client = new Client({
   intents: [
@@ -58,6 +61,13 @@ client.on(Events.GuildMemberAdd, async (member) => {
     const result = await tracker.handleMemberJoin(member);
     const inviterText = result.inviterId ? `<@${result.inviterId}>` : 'unknown';
     console.log(`Member ${member.user.tag} joined via ${result.inviteCode ?? 'unknown'} (inviter: ${inviterText})`);
+
+    if (result.inviterId) {
+      await notifyInviterOnJoin(client, config, {
+        member,
+        inviterId: result.inviterId,
+      });
+    }
   } catch (error) {
     console.error(`Failed to track invite for ${member.user.tag}:`, error);
   }
