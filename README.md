@@ -16,6 +16,27 @@ A Discord bot that tracks who invited each member, keeps invite counts, and expo
 
 ## Setup
 
+### Windows quick setup (no Node install needed)
+
+If `npm` is not recognized on your PC, use the automatic setup instead.
+
+1. Open this folder:
+   ```
+   C:\Users\Ollie\Documents\Discord-Inviter
+   ```
+2. Double-click:
+   ```
+   install-everything.bat
+   ```
+3. Wait until it says **Setup finished**
+4. Open `.env` and paste your `DISCORD_TOKEN`
+5. Double-click:
+   ```
+   start-bot.bat
+   ```
+
+This downloads Node.js into the project folder at `tools\node`, so you do **not** need to install Node on Windows yourself.
+
 ### Windows quick setup (Documents folder)
 
 1. Download or clone this repo.
