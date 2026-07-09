@@ -16,6 +16,42 @@ A Discord bot that tracks who invited each member, keeps invite counts, and expo
 
 ## Setup
 
+### Host from iPhone (no laptop)
+
+Use **Railway** or **Square Cloud** in Safari. The bot registers slash commands automatically when it starts, so you only need to set your token.
+
+#### Railway (recommended)
+
+1. Open [railway.app](https://railway.app) and sign in with **GitHub**.
+2. **New Project** → **Deploy from GitHub repo** → choose `CyberDigimon/Discord-Inviter`.
+3. Pick branch `cursor/auto-invite-notifications-6f47` (or `main` after merging the notifications PR).
+4. Open the service → **Variables** and add:
+   - `DISCORD_TOKEN` = your bot token
+   - `GUILD_ID` = your Discord server ID (slash commands show up instantly)
+5. Railway runs `npm start` automatically. Wait until the deploy shows **Active**.
+
+#### Square Cloud
+
+1. Download the latest branch ZIP from GitHub.
+2. Open [squarecloud.app](https://squarecloud.app) → upload the ZIP.
+3. Add `DISCORD_TOKEN` (and optional `GUILD_ID`) in the app settings.
+4. Start the app. `squarecloud.config` is already included.
+
+#### Before the bot goes online
+
+In the [Discord Developer Portal](https://discord.com/developers/applications):
+
+1. **Bot** → enable **Server Members Intent**.
+2. **OAuth2 → URL Generator** → scopes: `bot` + `applications.commands`.
+3. Bot permissions: **Manage Server**, **Send Messages**, **Create Instant Invite**.
+4. Open the invite link and add the bot to your server.
+
+#### Test in Discord
+
+- `/invite` — get your personal invite link
+- Have someone join with that link — you should get a DM with your new total
+- `/invites` and `/leaderboard` — check stats
+
 ### Windows quick setup (Documents folder)
 
 1. Download or clone this repo.

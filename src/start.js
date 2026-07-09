@@ -6,3 +6,5 @@ try {
   console.error('Failed to deploy commands:', error);
   process.exit(1);
 }
+
+await import('./index.js');
