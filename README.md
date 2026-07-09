@@ -76,7 +76,8 @@ Optional: set `GUILD_ID` as an environment variable if you want slash commands t
 Optional notification settings:
 
 - `NOTIFY_INVITER_DM` — set to `false` to turn off automatic DMs to inviters (on by default)
-- `NOTIFY_CHANNEL_ID` — channel ID where the bot posts public invite announcements (leave unset to skip)
+- `NOTIFY_CHANNEL_IDS` — comma-separated text channel IDs for invite announcements
+- `NOTIFY_CHANNEL_ID` — single channel ID (still works if you only need one)
 
 5. Install dependencies and register commands:
 

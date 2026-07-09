@@ -16,8 +16,8 @@ export async function notifyInviterOnJoin(client, config, { member, inviterId })
     await sendInviterDm(client, { member, inviterId, totalInvites });
   }
 
-  if (config.notifyChannelId) {
-    await sendChannelNotification(client, config.notifyChannelId, {
+  for (const channelId of config.notifyChannelIds) {
+    await sendChannelNotification(client, channelId, {
       member,
       inviterId,
       totalInvites,

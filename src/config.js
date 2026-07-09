@@ -26,13 +26,25 @@ export function getConfig() {
   }
 
   const notifyInviterDm = process.env.NOTIFY_INVITER_DM?.trim().toLowerCase() !== 'false';
-  const notifyChannelId = process.env.NOTIFY_CHANNEL_ID?.trim() || undefined;
+  const notifyChannelIds = parseChannelIds(
+    process.env.NOTIFY_CHANNEL_IDS,
+    process.env.NOTIFY_CHANNEL_ID,
+  );
 
   return {
     token,
     clientId: getClientIdFromToken(token),
     guildId: process.env.GUILD_ID?.trim() || undefined,
     notifyInviterDm,
-    notifyChannelId,
+    notifyChannelIds,
   };
+}
+
+function parseChannelIds(multiValue, singleValue) {
+  const raw = multiValue?.trim() || singleValue?.trim();
+  if (!raw) {
+    return [];
+  }
+
+  return [...new Set(raw.split(/[,\s]+/).map((id) => id.trim()).filter(/^\d+$/.test))];
 }
