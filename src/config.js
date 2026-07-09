@@ -25,9 +25,14 @@ export function getConfig() {
     );
   }
 
+  const notifyInviterDm = process.env.NOTIFY_INVITER_DM?.trim().toLowerCase() !== 'false';
+  const notifyChannelId = process.env.NOTIFY_CHANNEL_ID?.trim() || undefined;
+
   return {
     token,
     clientId: getClientIdFromToken(token),
     guildId: process.env.GUILD_ID?.trim() || undefined,
+    notifyInviterDm,
+    notifyChannelId,
   };
 }

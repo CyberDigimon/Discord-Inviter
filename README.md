@@ -5,6 +5,8 @@ A Discord bot that tracks who invited each member, keeps invite counts, and expo
 ## Features
 
 - Tracks joins by comparing invite usage counts
+- **Automatically DMs inviters** when someone joins using their invite link, with their updated total
+- Optionally posts invite announcements to a server channel
 - Stores invite history in `data/invites.json`
 - Slash commands:
   - `/invite` — create or return your personal permanent invite link
@@ -50,6 +52,11 @@ For local development, you can copy `.env.example` to `.env` and add your token 
 
 Optional: set `GUILD_ID` as an environment variable if you want slash commands to register instantly in one server during development. Leave it unset to register commands globally.
 
+Optional notification settings:
+
+- `NOTIFY_INVITER_DM` — set to `false` to turn off automatic DMs to inviters (on by default)
+- `NOTIFY_CHANNEL_ID` — channel ID where the bot posts public invite announcements (leave unset to skip)
+
 5. Install dependencies and register commands:
 
 ```bash
@@ -76,3 +83,4 @@ npm start
 
 - Members who joined before the bot started cannot be attributed unless they rejoin.
 - The bot must be online when members join to record invite attribution accurately.
+- Inviters must allow DMs from server members (or have DMs open to the bot) to receive automatic notifications.
