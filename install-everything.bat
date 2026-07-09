@@ -43,6 +43,8 @@ if not exist "%NODE_EXE%" (
   echo Node.js already present in tools\node
 )
 
+set "PATH=%NODE_DIR%;%PATH%"
+
 if not exist ".env" (
   copy /Y .env.example .env >nul
   echo Created .env from .env.example
@@ -50,7 +52,8 @@ if not exist ".env" (
 
 echo.
 echo Installing bot packages...
-call "%NPM_CMD%" install
+set "PATH=%NODE_DIR%;%PATH%"
+call npm install
 if errorlevel 1 (
   echo.
   echo npm install failed.

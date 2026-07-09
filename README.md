@@ -30,7 +30,11 @@ If `npm` is not recognized on your PC, use the automatic setup instead.
    ```
 3. Wait until it says **Setup finished**
 4. Open `.env` and paste your `DISCORD_TOKEN`
-5. Double-click:
+5. Optionally add notification channels:
+   ```
+   NOTIFY_CHANNEL_IDS=channel_id_1,channel_id_2
+   ```
+6. Double-click:
    ```
    start-bot.bat
    ```
@@ -100,6 +104,54 @@ npm start
 - Send Messages
 - Create Instant Invite
 - Manage Server
+
+## Let other servers use your bot
+
+To let **other people add your bot to their servers**, you need to:
+
+1. **Host the bot online 24/7** (your PC only works while it is turned on and `start-bot.bat` is running).
+2. **Share an invite link** so server owners can add the bot.
+
+### Create your bot invite link
+
+1. Open the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Select your app → **OAuth2 → URL Generator**.
+3. Under **Scopes**, check:
+   - `bot`
+   - `applications.commands`
+4. Under **Bot Permissions**, check:
+   - View Channels
+   - Send Messages
+   - Create Instant Invite
+   - Manage Server
+5. Copy the generated URL at the bottom and share it.
+
+Anyone with that link can add the bot to their server. Slash commands work in every server the bot is in.
+
+### Host online (recommended)
+
+**Railway / Render / a VPS** — set `DISCORD_TOKEN` as an environment variable on the host (never in GitHub).
+
+With Docker:
+
+```bash
+docker compose up -d
+```
+
+Make sure `.env` exists locally on the server with at least:
+
+```
+DISCORD_TOKEN=your_bot_token_here
+```
+
+Optional notification channels in `.env` only apply to **your** server. Other servers still get slash commands and inviter DMs.
+
+### Windows self-host (your PC)
+
+1. `git pull`
+2. Double-click `install-everything.bat` (only needed once)
+3. Edit `.env` with your token
+4. Double-click `start-bot.bat`
 
 ## Notes
 
