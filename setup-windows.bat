@@ -2,7 +2,7 @@
 setlocal EnableExtensions
 
 set "TARGET=%USERPROFILE%\Documents\Discord-Inviter"
-set "REPO=https://github.com/CyberDigimon/Discord-Inviter.git"
+set "REPO=https://github.com/cyberdigimon/discord-inviter.git"
 
 echo.
 echo Discord Inviter - fresh setup in Documents

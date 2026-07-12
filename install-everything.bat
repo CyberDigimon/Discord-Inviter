@@ -14,6 +14,14 @@ echo.
 echo Discord Inviter - automatic setup
 echo ===================================
 echo.
+echo Project folder:
+echo %CD%
+echo.
+
+if exist ".env.txt" if not exist ".env" (
+  echo Found .env.txt - renaming to .env...
+  ren ".env.txt" ".env"
+)
 
 if not exist "%NODE_EXE%" (
   echo Downloading Node.js into this project folder...
@@ -52,8 +60,7 @@ if not exist ".env" (
 
 echo.
 echo Installing bot packages...
-set "PATH=%NODE_DIR%;%PATH%"
-call npm install
+call "%NPM_CMD%" install
 if errorlevel 1 (
   echo.
   echo npm install failed.
@@ -70,8 +77,8 @@ echo Project folder:
 echo %CD%
 echo.
 echo Next:
-echo 1. Open this folder in Cursor
-echo 2. Open .env and paste your DISCORD_TOKEN after the = sign
+echo 1. Open .env and paste your DISCORD_TOKEN after the = sign
+echo 2. Optional: double-click check-setup.bat to verify the file
 echo 3. Double-click start-bot.bat
 echo.
 pause

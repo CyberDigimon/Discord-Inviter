@@ -7,4 +7,6 @@ RUN npm ci --omit=dev
 
 COPY src ./src
 
+RUN mkdir -p /app/data
+
 CMD ["sh", "-c", "node src/deploy-commands.js && node src/index.js"]
