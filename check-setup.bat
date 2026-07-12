@@ -53,17 +53,26 @@ for /f "usebackq eol=# tokens=1,* delims==" %%A in (".env") do (
   if /i "!KEY!"=="DISCORD_TOKEN" (
     if not "!VAL!"=="" (
       set "HAS_TOKEN=1"
-      echo !VAL! | findstr /R "\." >nul
-      if errorlevel 1 (
-        set "TOKEN_LOOKS_BAD=1"
-        echo [WARN] DISCORD_TOKEN is set, but it does not look like a Discord bot token
-        echo        A real token has two dots, like: xxxxx.yyyyyy.zzzzzzzz
+      echo !VAL! | findstr /R "^[0-9][0-9]*$" >nul
+      if not errorlevel 1 (
+        echo [FAIL] DISCORD_TOKEN is an Application ID, not a Bot Token
+        echo        Open Developer Portal -^> Bot -^> Reset Token / Copy
+        echo        It must look like: xxxxx.yyyyyy.zzzzzzzz
       ) else (
-        echo [OK] DISCORD_TOKEN is set
+        echo !VAL! | findstr /R "\." >nul
+        if errorlevel 1 (
+          set "TOKEN_LOOKS_BAD=1"
+          echo [FAIL] DISCORD_TOKEN does not look like a Bot Token
+          echo        Do NOT use Application ID, Public Key, or Client Secret
+          echo        Use Bot page -^> Reset Token / Copy
+          echo        A real token has two dots: xxxxx.yyyyyy.zzzzzzzz
+        ) else (
+          echo [OK] DISCORD_TOKEN looks like a Bot Token
+        )
       )
     ) else (
       echo [FAIL] DISCORD_TOKEN is empty
-      echo        Open .env and paste your token after DISCORD_TOKEN=
+      echo        Open .env and paste your Bot Token after DISCORD_TOKEN=
     )
   )
 

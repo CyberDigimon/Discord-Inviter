@@ -8,25 +8,52 @@ if (fs.existsSync(envPath)) {
   config({ path: envPath });
 }
 
+function cleanSecret(value) {
+  return value
+    ?.trim()
+    .replace(/^['"]|['"]$/g, '')
+    .trim();
+}
+
 function getClientIdFromToken(token) {
-  const [encodedId] = token.split('.');
-  if (!encodedId || token.split('.').length < 3) {
-    throw new Error('DISCORD_TOKEN looks invalid. Use the full bot token from the Developer Portal.');
+  // Application ID / snowflake pasted by mistake (digits only, no dots)
+  if (/^\d{17,20}$/.test(token)) {
+    throw new Error(
+      'DISCORD_TOKEN is set to an Application ID. Use the Bot Token instead (Bot page → Reset Token / Copy). It looks like: xxxxx.yyyyyy.zzzzzzzz',
+    );
+  }
+
+  // Public key is a long hex string
+  if (/^[0-9a-f]{32,}$/i.test(token) && !token.includes('.')) {
+    throw new Error(
+      'DISCORD_TOKEN is set to the Public Key. Use the Bot Token instead (Bot page → Reset Token / Copy).',
+    );
+  }
+
+  const parts = token.split('.');
+  const [encodedId] = parts;
+  if (!encodedId || parts.length < 3) {
+    throw new Error(
+      'DISCORD_TOKEN looks invalid. Paste the full Bot Token from Developer Portal → Bot (not Application ID, Public Key, or Client Secret). It has two dots.',
+    );
   }
 
   try {
-    const clientId = Buffer.from(encodedId, 'base64').toString('utf8').trim();
+    const padded = encodedId + '='.repeat((4 - (encodedId.length % 4)) % 4);
+    const clientId = Buffer.from(padded, 'base64url').toString('utf8').trim();
     if (!/^\d{17,20}$/.test(clientId)) {
       throw new Error('invalid');
     }
     return clientId;
   } catch {
-    throw new Error('DISCORD_TOKEN looks invalid. Use the full bot token from the Developer Portal.');
+    throw new Error(
+      'DISCORD_TOKEN looks invalid. Paste the full Bot Token from Developer Portal → Bot (not Application ID, Public Key, or Client Secret).',
+    );
   }
 }
 
 export function getConfig() {
-  const token = process.env.DISCORD_TOKEN?.trim();
+  const token = cleanSecret(process.env.DISCORD_TOKEN);
 
   if (!token) {
     throw new Error(
