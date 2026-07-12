@@ -20,26 +20,26 @@ A Discord bot that tracks who invited each member, keeps invite counts, and expo
 
 If `npm` is not recognized on your PC, use the automatic setup instead.
 
-1. Open this folder:
-   ```
-   C:\Users\Ollie\Documents\Discord-Inviter
-   ```
+1. Open the project folder (the one that contains `package.json`).
 2. Double-click:
    ```
    install-everything.bat
    ```
 3. Wait until it says **Setup finished**
-4. Open `.env` and paste your `DISCORD_TOKEN`
-5. Optionally add notification channels:
+4. Open `.env` and paste your `DISCORD_TOKEN` after the `=` sign
+5. Optionally add notification channels (text channel IDs, not categories):
    ```
    NOTIFY_CHANNEL_IDS=channel_id_1,channel_id_2
    ```
-6. Double-click:
+6. Optional: double-click `check-setup.bat` to verify `.env` looks correct
+7. Double-click:
    ```
    start-bot.bat
    ```
 
 This downloads Node.js into the project folder at `tools\node`, so you do **not** need to install Node on Windows yourself.
+
+If `check-setup.bat` says `.env file not found`, make sure the file is named exactly `.env` (not `.env.txt`). Windows Notepad often adds `.txt` when saving.
 
 ### Windows quick setup (Documents folder)
 

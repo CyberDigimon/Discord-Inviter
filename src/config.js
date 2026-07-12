@@ -9,11 +9,20 @@ if (fs.existsSync(envPath)) {
 }
 
 function getClientIdFromToken(token) {
-  const clientId = token.split('.')[0];
-  if (!clientId || !/^\d+$/.test(clientId)) {
+  const [encodedId] = token.split('.');
+  if (!encodedId || token.split('.').length < 3) {
     throw new Error('DISCORD_TOKEN looks invalid. Use the full bot token from the Developer Portal.');
   }
-  return clientId;
+
+  try {
+    const clientId = Buffer.from(encodedId, 'base64').toString('utf8').trim();
+    if (!/^\d{17,20}$/.test(clientId)) {
+      throw new Error('invalid');
+    }
+    return clientId;
+  } catch {
+    throw new Error('DISCORD_TOKEN looks invalid. Use the full bot token from the Developer Portal.');
+  }
 }
 
 export function getConfig() {
@@ -46,5 +55,12 @@ function parseChannelIds(multiValue, singleValue) {
     return [];
   }
 
-  return [...new Set(raw.split(/[,\s]+/).map((id) => id.trim()).filter(/^\d+$/.test))];
+  return [
+    ...new Set(
+      raw
+        .split(/[,\s]+/)
+        .map((id) => id.trim())
+        .filter((id) => /^\d{17,20}$/.test(id)),
+    ),
+  ];
 }
